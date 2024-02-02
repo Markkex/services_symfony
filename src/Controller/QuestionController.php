@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\service\MarkdownHelper;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +13,17 @@ use Twig\Environment;
 
 class QuestionController extends AbstractController
 {
+    private $logger;
+    private $isDebug;
+
+    public function __construct(
+        LoggerInterface $logger, 
+        bool $isDebug
+    )
+    {
+        $this->logger = $logger;
+        $this->isDebug = $isDebug;
+    }
     /**
      * @Route("/", name="app_homepage")
      */
@@ -32,6 +44,11 @@ class QuestionController extends AbstractController
      */
     public function show($slug, MarkdownHelper $markdownHelper)
     {
+
+        if($this->isDebug) {
+            $this->logger->info('We are in debug mode');
+        }
+
         $answers = [
             'Make sure your cat is sitting purrrfectly still 🤣',
             'Honestly, I like furry shoes better than MY cat',

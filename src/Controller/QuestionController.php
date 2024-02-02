@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\service\MarkdownHelper;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use Psr\Log\LoggerInterface;
+use Sentry\State\HubInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,12 +43,14 @@ class QuestionController extends AbstractController
     /**
      * @Route("/questions/{slug}", name="app_question_show")
      */
-    public function show($slug, MarkdownHelper $markdownHelper)
+    public function show($slug, MarkdownHelper $markdownHelper, HubInterface $sentryHub)
     {
 
         if($this->isDebug) {
             $this->logger->info('We are in debug mode');
         }
+
+        throw new \Exception('Bad stuff happened!');
 
         $answers = [
             'Make sure your cat is sitting purrrfectly still 🤣',
